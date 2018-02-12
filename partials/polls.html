@@ -1,0 +1,148 @@
+<div class="container-fluid" style="margin-top:10px;">
+  <div class="row">
+      <div class="col-md-7 col-sm-12 col-xs-12 col-md-offset-1">
+        <h4>Welcome, User</h4>
+        <br />
+        <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="tab" data-target="#create-poll">Create Poll</a></li>
+          <li><a data-toggle="tab" data-target="#poll-by-user">Your Polls</a></li>
+          <li><a data-toggle="tab" data-target="#menu2">Menu 2</a></li>
+        </ul>
+<style>
+  i[alt]:hover:after{
+    content:attr(alt);
+    padding: 4px 8px;
+    width:200px;
+    align-content:center;
+  color: #333;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 20;
+  white-space: wrap;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  -moz-box-shadow: 0px 0px 4px #222;
+  -webkit-box-shadow: 0px 0px 4px #222;
+  box-shadow: 0px 0px 4px #222;
+  background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);
+  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #eeeeee),color-stop(1, #cccccc));
+  background-image: -webkit-linear-gradient(top, #eeeeee, #cccccc);
+  background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);
+  background-image: -ms-linear-gradient(top, #eeeeee, #cccccc);
+  background-image: -o-linear-gradient(top, #eeeeee, #cccccc);
+
+  }
+  i:hover{
+    position:relative;
+  }
+</style>
+          <div class="tab-content">
+            <!-- Create Poll -->
+            <div id="create-poll" class="tab-pane fade in active">
+              <h3>Create Poll</h3>
+              <div class="radio">
+                <label class="radio-inline" ><input type="radio" name="optradio" ng-model="Poll" value="normalPoll">Normal</label>
+                  <label class="radio-inline"><input type="radio"  name="optradio"  ng-model="Poll" value="feedbackPoll" >FeedBack</label>
+
+                  <!-- Normal Poll -->
+                  <!-- hide using ng-show true false -->
+              <div ng-show=" Poll == 'normalPoll' ">
+                <!-- ng-submit function -->
+                <form name="normalpollform" ng-submit="createPoll()">
+                  <br />
+                  <div class="form-group">
+                    <strong for="heading">Poll Heading:</strong>
+                    <input  type="text" class="form-control" id="poll-heading" ng-model="pollHeading" name="poll-heading">
+                  </div>
+
+                    <div class="checkbox">
+                        <label class="checkbox-inline"><input type="checkbox"  name="optradio"  ng-model="pollimage" >Include Image</label>
+                        <label class="checkbox-inline"><input type="checkbox"  name="poll-anynomous" ng-model="pollAnonymous" >Post as Anonymous &nbsp; </label><i style="color:blue; opacity:1;" alt="Your name will not be visible on the poll" class="fa fa-question"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <label class="checkbox-inline"><input type="checkbox"  name="poll-private" ng-model="pollPrivate">Private Poll</label> &nbsp;&nbsp;<i style="color:blue; opacity:1;" alt="A speperate link will be created which you can share and not visible on search or Home Page" class="fa fa-question"></i>
+                    </div>
+                    <div ng-show=" pollimage ">
+                      <!-- image upload -->
+                      <input type="file" id="imageupload" ng-model="myFile" accept="image/*" onchange="angular.element(this).scope().uploadedFile(this)" />
+                      <br />
+                      <br/>
+	                       <img id="imageview" ng-src="{{image_source}}" style="width:300px;">
+                    </div>
+                  <div class="form-group">
+                    <strong for="poll-content">Description:</strong>
+                    <textarea id="poll-description" ng-model="pollDescription" style="min-height:200px;" class="form-control" placeholder="description"></textarea>
+                  </div>
+                  <input type="submit" id="poll-submit" class="btn btn-info" value="Create Poll">
+                </form>
+              </div>
+
+              <!-- Feedback Poll -->
+              <!-- hide using ng-show true false -->
+              <div ng-show=" Poll == 'feedbackPoll' ">
+                <!-- ng-submit function -->
+                <form ng-submit="createfeedback()">
+                  <br />
+                  <div class="form-group">
+                    <strong for="heading">Fedback Heading:</strong>
+                    <input  type="text" class="form-control" id="feedback-heading" name="poll-heading">
+                  </div>
+
+                  <div class="checkbox">
+                      <label class="checkbox-inline"><input type="checkbox"  name="post-anynomous" >Post as Anynomous &nbsp; </label><i style="color:blue; opacity:1;" alt="Your name will not be visible on the Feedback" class="fa fa-question"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                      <label class="checkbox-inline"><input type="checkbox"  name="poll-private" >Private Feedback</label> &nbsp;&nbsp;<i style="color:blue; opacity:1;" alt="A speperate link will be created which you can share and not visible on search or Home Page" class="fa fa-question"></i>
+
+                  </div>
+
+                  <div class="form-group">
+                    <strong for="feedback-content">Description:</strong>
+                    <textarea id="feedback-description" style="min-height:200px;" class="form-control" placeholder="description"></textarea>
+                  </div>
+                  <input id="feedback-submit"class="btn btn-info" value="Create Feedback">
+                </form>
+              </div>
+                </div>
+            </div>
+
+            <!-- User Created Poll  -->
+            <div id="poll-by-user" class="tab-pane fade" ng-init=showPolls()>
+              <h3>Polls</h3>
+              <ul ng-repeat = "x in names">
+                <!-- assuming our search returns an array of users matching the search -->
+                <li>
+                   {{x.name}}
+                   <br />
+                   {{x.age}}
+                   <br />
+                   <br />
+                </li>
+              </ul>
+            </div>
+            <div id="menu2" class="tab-pane fade">
+              <h3>Menu 2</h3>
+              <p>Some content in menu 2.</p>
+            </div>
+          </div>
+      </div>
+      <!-- <div class="col-md-4">
+         <div class="profile-image">
+
+        </div>
+      </div> -->
+  </div>
+
+  <toaster-container toaster-options="{'time-out': 500}"></toaster-container>
+  <script type="text/ng-template" id="toasterBodyTmpl.html">
+          <p>Render a default template!</p>
+        </script>
+  <!-- Script for Emojis -->
+  <script type="text/javascript">
+  $(document).ready(function() {
+  $("#poll-description").emojioneArea();
+  $("#poll-heading").emojioneArea();
+  $("#feedback-description").emojioneArea();
+  $("#feedback-heading").emojioneArea();
+
+  });
+  </script>
+</div>
